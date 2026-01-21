@@ -1,0 +1,14 @@
+{
+  "name": "collector-vulnerable",
+  "version": "1.0.0",
+  "description": "Version vulnérable de Collector.shop - Demo JWT Attack",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5"
+  }
+}

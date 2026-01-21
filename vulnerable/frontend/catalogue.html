@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collector.shop - Catalogue</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <table class="main-table" border="2" cellpadding="10" cellspacing="0">
+            <tr>
+                <td colspan="2" class="header">
+                    <marquee behavior="scroll" direction="left">
+                        <h1>*** COLLECTOR.SHOP *** Les meilleures pièces de collection ***</h1>
+                    </marquee>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="nav-table">
+                        <tr>
+                            <td><a href="/">ACCUEIL</a></td>
+                            <td><a href="/catalogue">CATALOGUE</a></td>
+                            <td><a href="/admin">ADMIN</a></td>
+                            <td align="right">
+                                Connecté: <span id="username" style="color:#00ff00">---</span>
+                                <button class="btn-logout" onclick="logout()">DÉCONNEXION</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <h2>:: CATALOGUE DES OBJETS DE COLLECTION ::</h2>
+                        <img src="https://via.placeholder.com/40x40/ffff00/ff0000?text=NEW" alt="new">
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="product-table" id="productsTable">
+                        <thead>
+                            <tr>
+                                <th>PRODUIT</th>
+                                <th>DESCRIPTION</th>
+                                <th>CATÉGORIE</th>
+                                <th>PRIX</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsBody">
+                            <tr>
+                                <td colspan="4" align="center">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="footer">
+                    <center>
+                        <font size="2">
+                            <blink>HOT DEALS!</blink> |
+                            Visiteurs : <img src="https://via.placeholder.com/80x15/000000/00ff00?text=001337"
+                                alt="counter">
+                            | Dernière MAJ : 01/01/2000
+                        </font>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // Charger infos utilisateur
+        async function loadUser() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    document.getElementById('username').textContent = user.name;
+                } else {
+                    window.location.href = '/';
+                }
+            } catch (err) {
+                window.location.href = '/';
+            }
+        }
+
+        // Charger produits
+        async function loadProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+
+                const tbody = document.getElementById('productsBody');
+                tbody.innerHTML = '';
+
+                products.forEach(product => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><b>${product.name}</b></td>
+                        <td>${product.description}</td>
+                        <td>${product.category}</td>
+                        <td class="price">${product.price} €</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (err) {
+                document.getElementById('productsBody').innerHTML =
+                    '<tr><td colspan="4" align="center">Erreur chargement</td></tr>';
+            }
+        }
+
+        // Déconnexion
+        async function logout() {
+            await fetch('/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/';
+        }
+
+        loadUser();
+        loadProducts();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,259 @@
+/* COLLECTOR.SHOP - Style Année 2000 (Volontairement amateur) */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Comic Sans MS', 'Papyrus', cursive;
+    background-color: #000080;
+    background-image: url('data:image/gif;base64,R0lGODlhCgAKAIAAAP///8zMzCH5BAAAAAAALAAAAAAKAAoAAAIRhI+py+0Po5y02ouz3rz7rxUAOw==');
+    color: #ffff00;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.main-table {
+    width: 100%;
+    background-color: #c0c0c0;
+    border: 5px ridge #808080;
+}
+
+.header {
+    background: linear-gradient(to right, #ff0000, #ff00ff, #0000ff, #00ffff, #00ff00, #ffff00, #ff0000);
+    padding: 10px;
+}
+
+.header h1 {
+    font-size: 18px;
+    color: #ffffff;
+    text-shadow: 2px 2px #000000;
+}
+
+h2 {
+    color: #800000;
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+input[type="text"],
+input[type="password"] {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 2px inset #808080;
+    padding: 5px;
+    background-color: #ffffff;
+}
+
+.btn-submit {
+    font-family: 'Comic Sans MS', cursive;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #008000;
+    color: #ffffff;
+    border: 3px outset #00ff00;
+    padding: 8px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-submit:hover {
+    background-color: #00ff00;
+    color: #000000;
+}
+
+.btn-submit:active {
+    border-style: inset;
+}
+
+.error {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #ffcccc;
+    padding: 5px;
+    border: 2px solid #ff0000;
+    display: inline-block;
+}
+
+.error:empty {
+    display: none;
+}
+
+.success {
+    color: #008000;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #ccffcc;
+    padding: 5px;
+    border: 2px solid #008000;
+    display: inline-block;
+}
+
+.success:empty {
+    display: none;
+}
+
+.footer {
+    background-color: #000000;
+    color: #00ff00;
+    padding: 10px;
+}
+
+.footer a {
+    color: #00ffff;
+}
+
+.footer a:visited {
+    color: #ff00ff;
+}
+
+/* Navigation */
+.nav-table {
+    width: 100%;
+    background-color: #808080;
+    border: 2px ridge #c0c0c0;
+    margin-bottom: 10px;
+}
+
+.nav-table td {
+    padding: 5px 15px;
+}
+
+.nav-table a {
+    color: #ffff00;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-table a:hover {
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+/* Produits */
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.product-table th {
+    background-color: #000080;
+    color: #ffffff;
+    padding: 8px;
+    border: 2px solid #ffffff;
+}
+
+.product-table td {
+    background-color: #ffffcc;
+    padding: 8px;
+    border: 1px solid #000000;
+    vertical-align: top;
+}
+
+.product-table tr:nth-child(even) td {
+    background-color: #ffccff;
+}
+
+.price {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Admin */
+.admin-warning {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    border: 3px solid #ffff00;
+    animation: blink 0.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.stat-box {
+    background-color: #cccccc;
+    border: 3px inset #808080;
+    padding: 15px;
+    margin: 10px;
+    display: inline-block;
+    min-width: 150px;
+    text-align: center;
+}
+
+.stat-box h3 {
+    color: #000080;
+    margin-bottom: 10px;
+}
+
+.stat-box .number {
+    font-size: 32px;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.user-table {
+    width: 100%;
+    border: 2px solid #000000;
+    margin-top: 20px;
+}
+
+.user-table th {
+    background-color: #800000;
+    color: #ffffff;
+    padding: 8px;
+}
+
+.user-table td {
+    background-color: #ffffff;
+    padding: 8px;
+    border: 1px solid #cccccc;
+}
+
+.admin-badge {
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: 2px 8px;
+    font-weight: bold;
+}
+
+.user-badge {
+    background-color: #008000;
+    color: #ffffff;
+    padding: 2px 8px;
+}
+
+.btn-logout {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: 2px outset #ff6666;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-logout:hover {
+    background-color: #cc0000;
+}
+
+.under-construction {
+    text-align: center;
+    padding: 20px;
+}
+
+.under-construction img {
+    max-width: 100px;
+}

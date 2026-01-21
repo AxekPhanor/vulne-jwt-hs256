@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collector.shop - ADMIN</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <table class="main-table" border="2" cellpadding="10" cellspacing="0">
+            <tr>
+                <td colspan="2" class="header">
+                    <marquee behavior="scroll" direction="left">
+                        <h1>*** COLLECTOR.SHOP - PANNEAU D'ADMINISTRATION ***</h1>
+                    </marquee>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <table class="nav-table">
+                        <tr>
+                            <td><a href="/">ACCUEIL</a></td>
+                            <td><a href="/catalogue">CATALOGUE</a></td>
+                            <td><a href="/admin" style="color:#ff0000">ADMIN</a></td>
+                            <td align="right">
+                                Connecté: <span id="username" style="color:#00ff00">---</span>
+                                (<span id="role">---</span>)
+                                <button class="btn-logout" onclick="logout()">DÉCONNEXION</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <!-- Contenu Admin -->
+            <tr>
+                <td colspan="2" id="adminContent">
+                    <center>
+                        <p>Vérification des droits...</p>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- Accès refusé -->
+            <tr id="accessDenied" style="display:none;">
+                <td colspan="2">
+                    <div class="admin-warning">
+                        ⛔ ACCÈS REFUSÉ - ZONE RÉSERVÉE AUX ADMINISTRATEURS ⛔
+                    </div>
+                    <center>
+                        <p style="color:#ff0000; font-size:18px; margin:20px;">
+                            Vous n'avez pas les droits nécessaires pour accéder à cette section.
+                        </p>
+                        <a href="/catalogue">Retour au catalogue</a>
+                    </center>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" class="footer">
+                    <center>
+                        <font size="2" color="#ff0000">
+                            ⚠️ SECTION CONFIDENTIELLE ⚠️ | Accès journalisé
+                        </font>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        async function loadAdmin() {
+            try {
+                // Charger infos utilisateur
+                const userResponse = await fetch('/api/me', { credentials: 'include' });
+                if (!userResponse.ok) {
+                    window.location.href = '/';
+                    return;
+                }
+
+                const user = await userResponse.json();
+                document.getElementById('username').textContent = user.name;
+                document.getElementById('role').textContent = user.admin ? 'ADMIN' : 'USER';
+
+                // Charger données admin
+                const adminResponse = await fetch('/api/admin', { credentials: 'include' });
+
+                if (adminResponse.ok) {
+                    const data = await adminResponse.json();
+                    showAdminPanel(data);
+                } else {
+                    showAccessDenied();
+                }
+            } catch (err) {
+                showAccessDenied();
+            }
+        }
+
+        function showAdminPanel(data) {
+            const content = document.getElementById('adminContent');
+
+            let usersHTML = '';
+            data.users.forEach(user => {
+                const badge = user.admin ? '<span class="admin-badge">ADMIN</span>' : '<span class="user-badge">USER</span>';
+                usersHTML += `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${badge}</td>
+                    </tr>
+                `;
+            });
+
+            content.innerHTML = `
+                <center>
+                    <h2 style="color:#800000;">:: TABLEAU DE BORD ADMIN ::</h2>
+                </center>
+                
+                <center>
+                    <div class="stat-box">
+                        <h3>UTILISATEURS</h3>
+                        <div class="number">${data.stats.totalUsers}</div>
+                    </div>
+                    <div class="stat-box">
+                        <h3>PRODUITS</h3>
+                        <div class="number">${data.stats.totalProducts}</div>
+                    </div>
+                    <div class="stat-box">
+                        <h3>ADMINS</h3>
+                        <div class="number">${data.stats.totalAdmins}</div>
+                    </div>
+                </center>
+                
+                <center>
+                    <h3 style="margin-top:20px;">Liste des utilisateurs</h3>
+                </center>
+                
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>RÔLE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${usersHTML}
+                    </tbody>
+                </table>
+                
+                <center style="margin-top:20px;">
+                    <div class="under-construction">
+                        <img src="https://via.placeholder.com/100x100/ffff00/000000?text=WORK" alt="construction">
+                        <p>Plus de fonctionnalités à venir...</p>
+                    </div>
+                </center>
+            `;
+        }
+
+        function showAccessDenied() {
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('accessDenied').style.display = '';
+        }
+
+        async function logout() {
+            await fetch('/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/';
+        }
+
+        loadAdmin();
+    </script>
+</body>
+
+</html>

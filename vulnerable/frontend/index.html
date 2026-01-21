@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collector.shop - Connexion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <table class="main-table" border="2" cellpadding="10" cellspacing="0">
+            <tr>
+                <td colspan="2" class="header">
+                    <marquee behavior="scroll" direction="left">
+                        <h1>*** COLLECTOR.SHOP *** Votre marketplace d'objets de collection ***</h1>
+                    </marquee>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <img src="https://via.placeholder.com/200x80/ff00ff/ffffff?text=COLLECTOR" alt="Logo" border="3">
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <h2>:: CONNEXION ::</h2>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <form id="loginForm">
+                        <table align="center" border="1" cellpadding="5" bgcolor="#ffffcc">
+                            <tr>
+                                <td><b>Identifiant :</b></td>
+                                <td><input type="text" id="username" name="username" size="20"></td>
+                            </tr>
+                            <tr>
+                                <td><b>Mot de passe :</b></td>
+                                <td><input type="password" id="password" name="password" size="20"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" value=">> ENTRER <<" class="btn-submit">
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <center>
+                        <p id="error" class="error"></p>
+                        <p id="success" class="success"></p>
+                    </center>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="footer">
+                    <center>
+                        <font size="2">
+                            Visiteurs : <img src="https://via.placeholder.com/80x15/000000/00ff00?text=001337" alt="counter">
+                            | <a href="mailto:contact@collector.shop">Contactez-nous</a>
+                            | Site optimisé pour Netscape Navigator 4.0
+                        </font>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('error');
+            const successEl = document.getElementById('success');
+            
+            errorEl.textContent = '';
+            successEl.textContent = '';
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    successEl.textContent = 'Connexion réussie ! Redirection...';
+                    setTimeout(() => {
+                        window.location.href = '/catalogue';
+                    }, 1000);
+                } else {
+                    errorEl.textContent = data.error || 'Erreur de connexion';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Erreur serveur';
+            }
+        });
+    </script>
+</body>
+</html>
